@@ -1,0 +1,37 @@
+import java.util.*;
+
+public class StatisticsCalculator {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Read array size and elements
+        System.out.println("Enter number of elements:");
+        int n = scanner.nextInt();
+        int[] numbers = new int[n];
+        System.out.println("Enter elements:");
+        for (int i = 0; i < n; i++) numbers[i] = scanner.nextInt();
+
+        // Calculate Mean
+        double mean = Arrays.stream(numbers).average().orElse(0);
+        System.out.println("Mean: " + mean);
+
+        // Calculate Median
+        Arrays.sort(numbers);
+        double median = n % 2 == 0 ? (numbers[n / 2 - 1] + numbers[n / 2]) / 2.0 : numbers[n / 2];
+        System.out.println("Median: " + median);
+
+        // Calculate Mode
+        Map<Integer, Integer> freqMap = new HashMap<>();
+        for (int num : numbers) freqMap.put(num, freqMap.getOrDefault(num, 0) + 1);
+        int mode = numbers[0], maxFreq = 0;
+        for (int key : freqMap.keySet()) {
+            if (freqMap.get(key) > maxFreq) {
+                maxFreq = freqMap.get(key);
+                mode = key;
+            }
+        }
+        System.out.println("Mode: " + mode);
+
+        scanner.close();
+    }
+}
